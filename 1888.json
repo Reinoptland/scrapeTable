@@ -1,0 +1,58 @@
+[
+  {
+    "name": "VV Concordia",
+    "position": 1,
+    "matchesPlayed": 7,
+    "wins": 5,
+    "draws": 1,
+    "losses": 1
+  },
+  {
+    "name": "HFC",
+    "position": 2,
+    "matchesPlayed": 7,
+    "wins": 2,
+    "draws": 3,
+    "losses": 2
+  },
+  {
+    "name": "HVV Den Haag",
+    "position": 3,
+    "matchesPlayed": 6,
+    "wins": 2,
+    "draws": 2,
+    "losses": 2
+  },
+  {
+    "name": "VVA",
+    "position": 4,
+    "matchesPlayed": 6,
+    "wins": 1,
+    "draws": 4,
+    "losses": 1
+  },
+  {
+    "name": "RAP",
+    "position": 5,
+    "matchesPlayed": 5,
+    "wins": 0,
+    "draws": 4,
+    "losses": 1
+  },
+  {
+    "name": "Olympia Rotterdam",
+    "position": 6,
+    "matchesPlayed": 2,
+    "wins": 0,
+    "draws": 0,
+    "losses": 2
+  },
+  {
+    "name": "Excelsior Haarlem",
+    "position": 7,
+    "matchesPlayed": 1,
+    "wins": 0,
+    "draws": 0,
+    "losses": 1
+  }
+]

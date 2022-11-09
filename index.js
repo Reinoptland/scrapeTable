@@ -14,8 +14,7 @@ function findLeagueTable(tables) {
   return null;
 }
 
-async function scrape() {
-  const url = "https://en.wikipedia.org/wiki/2006%E2%80%9307_Eredivisie";
+async function scrapeLeagueTable(url) {
   const response = await axios.get(url);
   const html = response.data;
 
@@ -32,13 +31,15 @@ async function scrape() {
   for (row of rows) {
     const [position, team, matchesPlayed, wins, draws, losses] =
       row.querySelectorAll("td, th");
+    if (!team) continue;
 
-    const teamName = team.querySelector("a").textContent;
-    const teamPosition = parseInt(position.textContent);
-    const matchCount = parseInt(matchesPlayed.textContent);
-    const winCount = parseInt(wins.textContent);
-    const drawCount = parseInt(draws.textContent);
-    const lossesCount = parseInt(losses.textContent);
+    const teamName =
+      team.querySelector("a")?.textContent || team.textContent || null;
+    const teamPosition = parseInt(position?.textContent);
+    const matchCount = parseInt(matchesPlayed?.textContent);
+    const winCount = parseInt(wins?.textContent);
+    const drawCount = parseInt(draws?.textContent);
+    const lossesCount = parseInt(losses?.textContent);
 
     const teamResults = {
       name: teamName,
@@ -57,4 +58,48 @@ async function scrape() {
   fs.writeFileSync(`${year}.json`, JSON.stringify(results));
 }
 
-scrape();
+// scrapeLeagueTable("https://en.wikipedia.org/wiki/2006%E2%80%9307_Eredivisie");
+
+async function scrapeSeasons() {
+  const response = await axios.get(
+    "https://en.wikipedia.org/wiki/List_of_Dutch_football_champions"
+  );
+  const html = response.data;
+
+  const jsdom = new JSDOM(html);
+  const document = jsdom.window.document;
+
+  const tables = document.querySelectorAll("table");
+  const seasonTables = [];
+
+  for (table of tables) {
+    if (table.querySelector("th").textContent.includes("Season")) {
+      seasonTables.push(table);
+    }
+  }
+
+  const wikipediaLinks = [];
+
+  for (seasonTable of seasonTables) {
+    const body = seasonTable.querySelector("tbody");
+    const rows = body.querySelectorAll("tr");
+    console.log(rows.length);
+    for (row of rows) {
+      const seasonCell = row.querySelector("td");
+      console.log(seasonCell);
+      if (seasonCell) {
+        const link = seasonCell.querySelector("a")?.href;
+        if (link) {
+          wikipediaLinks.push(link);
+        }
+      }
+    }
+  }
+
+  console.log(wikipediaLinks);
+  for (const link of wikipediaLinks) {
+    scrapeLeagueTable(`https://en.wikipedia.org${link}`);
+  }
+}
+
+scrapeSeasons();
